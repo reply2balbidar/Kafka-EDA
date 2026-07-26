@@ -1,0 +1,40 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: notification-service
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+  # Defaults point at MailHog (started via docker-compose) so email sending
+  # works out of the box with zero real credentials for local testing.
+  # For a real provider (Gmail, SendGrid SMTP, SES SMTP, etc.), override via
+  # environment variables - see the commented block below.
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:false}
+          starttls:
+            enable: ${MAIL_SMTP_STARTTLS:false}
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
+notification:
+  from-address: ${NOTIFICATION_FROM_ADDRESS:orders@example.com}
+  from-name: ${NOTIFICATION_FROM_NAME:Example Store}
+
+# --- Example real-provider override (e.g. Gmail SMTP) ---
+# MAIL_HOST=smtp.gmail.com
+# MAIL_PORT=587
+# MAIL_USERNAME=you@gmail.com
+# MAIL_PASSWORD=app-specific-password
+# MAIL_SMTP_AUTH=true
+# MAIL_SMTP_STARTTLS=true

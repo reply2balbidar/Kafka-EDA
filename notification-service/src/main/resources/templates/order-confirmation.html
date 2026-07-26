@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Order Confirmation</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f7; padding: 24px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="max-width: 480px; margin: 0 auto; background: #ffffff; border-radius: 8px; overflow: hidden;">
+    <tr>
+        <td style="background-color: #1a1a2e; padding: 20px; text-align: center;">
+            <h1 style="color: #ffffff; margin: 0; font-size: 20px;">Order Confirmed</h1>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 24px;">
+            <p style="font-size: 15px; color: #333;">Hi <span th:text="${customerName}">Customer</span>,</p>
+            <p style="font-size: 15px; color: #333;">
+                Thanks for your order! Here are the details:
+            </p>
+            <table width="100%" cellpadding="8" style="border-collapse: collapse; margin: 16px 0; font-size: 14px; color: #333;">
+                <tr>
+                    <td style="border-bottom: 1px solid #eee;"><strong>Order ID</strong></td>
+                    <td style="border-bottom: 1px solid #eee;" th:text="${orderId}">-</td>
+                </tr>
+                <tr>
+                    <td style="border-bottom: 1px solid #eee;"><strong>Product</strong></td>
+                    <td style="border-bottom: 1px solid #eee;" th:text="${productId}">-</td>
+                </tr>
+                <tr>
+                    <td style="border-bottom: 1px solid #eee;"><strong>Quantity</strong></td>
+                    <td style="border-bottom: 1px solid #eee;" th:text="${quantity}">-</td>
+                </tr>
+                <tr>
+                    <td><strong>Total</strong></td>
+                    <td th:text="'$' + ${totalAmount}">-</td>
+                </tr>
+            </table>
+            <p style="font-size: 13px; color: #888;">
+                We'll email you again once your order ships. If you have any
+                questions, just reply to this email.
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
