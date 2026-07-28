@@ -1,0 +1,111 @@
+Q: What are the key JVM tuning parameters for optimizing performance?
+   How to tune the jvm when it is required?
+A: Key JVM tuning parameters for optimizing performance include:
+1. Heap Size Parameters:
+   - `-Xms`: Sets the initial heap size.
+   - `-Xmx`: Sets the maximum heap size.
+2. Garbage Collection Parameters:
+   - `-XX:+UseG1GC`: Enables the G1 Garbage Collector.
+   - `-XX:+UseParallelGC`: Enables the Parallel Garbage Collector.
+   - `-XX:+UseConcMarkSweepGC`: Enables the Concurrent Mark Sweep Garbage Collector.
+   - `-XX:MaxGCPauseMillis`: Sets the maximum pause time for garbage collection.
+3. Thread Stack Size:
+   - `-Xss`: Sets the thread stack size.
+4. JIT Compiler Parameters:
+   - `-XX:+TieredCompilation`: Enables tiered compilation for better performance.
+5. Class Data Sharing:
+   - `-Xshare:off`: Disables class data sharing.
+   - `-Xshare:on`: Enables class data sharing for faster startup.
+6. Logging and Monitoring:
+   - `-XX:+PrintGCDetails`: Prints detailed garbage collection logs.
+   - `-XX:+PrintGCDateStamps`: Prints timestamps for garbage collection logs.
+To tune the JVM when required, follow these steps:
+Ans: tune the JVM based on evidence (GC logs, heap dumps, CPU, application behavior).
+   1. High Response Time-
+   Symptoms :-
+   API latency increases
+   Application freezes
+   Long GC pauses
+
+   Check :-
+   GC logs
+   Prometheus
+   Grafana
+   JFR (Java Flight Recorder)
+
+ 2. Frequent Garbage Collection :-
+
+   Example
+
+   GC every 3-5 seconds
+
+   Meaning
+
+   Heap is too small
+   or
+   Objects are being created too frequently.
+
+   Possible tuning
+
+   Increase Heap
+   Reduce object creation
+
+ 3. OutOfMemoryError
+
+ Example
+
+ java.lang.OutOfMemoryError: Java heap space
+
+ Possible reasons
+
+ Heap too small
+ Memory leak
+ Huge cache
+ Large collections
+
+ Tools
+
+ Heap Dump
+ MAT (Memory Analyzer)
+ VisualVM
+
+ 4. Long Full GC
+
+ Example
+
+ Pause Time = 15 seconds
+
+ This is unacceptable for most applications.
+
+ Tune
+
+ Increase heap
+ Switch to G1GC
+ Reduce old generation pressure
+
+ 5. High CPU Usage
+
+ Sometimes JVM spends 80% CPU doing GC.
+
+ Check
+
+ top
+
+ jstack
+
+ jcmd
+
+ async-profiler
+
+ Useful  JVM Tools-
+
+ Tool	                      Purpose
+ jcmd	                     JVM diagnostics
+ jstat	                     GC statistics
+ jmap	                      Heap dump
+ jstack	                      Thread dump
+ JFR (Java Flight Recorder)	  Low-overhead profiling
+ VisualVM	                  Heap and CPU analysis
+ Eclipse MAT	              Memory leak detection
+ async-profiler	              CPU and allocation profiling
+ Prometheus + Grafana	      Runtime monitoring

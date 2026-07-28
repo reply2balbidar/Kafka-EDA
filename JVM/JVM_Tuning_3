@@ -1,0 +1,155 @@
+ Step-by-Step JVM Tuning Process :-
+ Step 1
+
+ Collect metrics
+ CPU | Memory | Heap | GC | Threads | Class Loading
+
+ Step 2
+ Enable GC Logging
+
+ Java 17
+
+ -Xlog:gc*:gc.log
+
+ Look for
+ Young GC | Full GC | Pause Time  | Allocation Rate
+
+ Step 3
+ Analyze Heap | jmap | Heap Dump | MAT
+
+ Find
+
+ Largest objects | Memory leak | Duplicate objects
+ Step 4
+
+ Thread Dump | jstack
+
+  Check
+ Deadlock | Waiting threads |  Blocked threads
+
+ Step 5
+
+ Tune JVM Parameters
+
+ Heap Size
+
+ Initial Heap = -Xms4g
+
+ Maximum Heap = -Xmx4g
+
+ Recommendation
+
+ Keep
+
+ Xms = Xmx
+
+ to avoid heap resizing.
+
+ Garbage Collector
+
+ Default (Java 17)
+
+ G1GC
+
+ Enable
+
+ -XX:+UseG1GC
+ Pause Time Goal
+ -XX:MaxGCPauseMillis=200
+
+ G1GC tries to keep pause under 200 ms.
+
+ Heap Occupancy
+ -XX:InitiatingHeapOccupancyPercent=45
+
+ Starts concurrent marking earlier.
+
+ String Deduplication
+
+ Useful if many duplicate Strings.
+
+ -XX:+UseStringDeduplication
+ GC Threads
+ -XX:ParallelGCThreads=8
+ -XX:ConcGCThreads=4
+
+ Tune according to CPU cores.
+
+ Metaspace
+
+ Instead of PermGen
+
+ -XX:MaxMetaspaceSize=512m
+ Direct Memory
+
+ For Netty
+
+ -XX:MaxDirectMemorySize=2g
+ Container Awareness
+
+ Docker
+
+ -XX:+UseContainerSupport
+
+ Java 17 enables this by default.
+
+ Example JVM Options
+ -Xms8g
+ -Xmx8g
+
+ -XX:+UseG1GC
+
+ -XX:MaxGCPauseMillis=200
+
+ -XX:+UseStringDeduplication
+
+ -XX:InitiatingHeapOccupancyPercent=45
+
+ -Xlog:gc*:gc.log
+ Common Scenarios
+ Scenario 1
+
+ Problem
+
+ Young GC every second
+
+ Solution
+
+ Increase Eden Space  | Increase Heap | Reduce object creation
+
+ Scenario 2
+
+ Problem
+
+ Full GC every minute
+
+ Solution
+
+ Increase Heap | Find memory leak | Analyze Heap Dump
+
+ Scenario 3
+
+ Problem
+
+ API freezes for 20 seconds
+
+ Reason
+
+ Long Full GC
+
+ Solution
+
+ G1GC
+ More Heap
+ Reduce old generation usage
+ Scenario 4
+
+ Problem
+
+ OutOfMemoryError
+
+ Solution
+
+ Heap Dump
+ MAT Analysis
+ Fix leak instead of only increasing heap

@@ -1,0 +1,67 @@
+Q. Take a thread dump using stack and jcmd.
+
+ Method 1: Using jstack (Most Common)
+ Step 1: Find the Java Process ID (PID)
+
+ Linux:
+  jps -l
+
+ Output:
+
+ 12345 my-app.jar
+ 67890 Jps
+
+ Here:
+
+ PID = 12345
+ Step 2: Take the Thread Dump
+ jstack 12345 > threaddump.txt
+
+ or include lock information:
+
+ jstack -l 12345 > threaddump.txt
+ Method 2: Using jcmd (Recommended for Java 8+)
+
+ Find the PID:
+
+ jps -l
+
+ Take the dump:
+
+ jcmd 12345 Thread.print > threaddump.txt
+
+ With lock information:
+
+ jcmd 12345 Thread.print -l > threaddump.txt
+
+ Why use jcmd?
+
+ More reliable than jstack
+ Recommended by Oracle
+ Can perform many JVM diagnostic operations.
+
+ Identify High CPU Threads
+
+ Find the Java process:
+
+ top -H -p 12345
+
+ Sample output:
+
+ PID      %CPU
+ 12401     95
+ 12402      2
+
+ Convert the thread ID (decimal) to hexadecimal:
+
+ printf "%x\n" 12401
+
+ Output:
+
+ 3071
+
+ Search the thread dump:
+
+ grep -A 20 "nid=0x3071" threaddump.txt
+
+ This identifies the Java thread consuming high CPU.
